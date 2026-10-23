@@ -1,0 +1,10 @@
+%% Blockchain Transaction Lifecycle
+stateDiagram-v2
+[*] --> CREATED
+CREATED --> SUBMITTED: RPC accepts transaction
+CREATED --> FAILED: signing/RPC submission error
+SUBMITTED --> CONFIRMED: receipt success + required confirmations
+SUBMITTED --> FAILED: receipt revert / timeout policy
+FAILED --> RETRYABLE: classified transient failure
+RETRYABLE --> SUBMITTED: authorized retry, idempotency key
+CONFIRMED --> [*]

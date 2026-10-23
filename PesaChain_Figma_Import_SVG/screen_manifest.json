@@ -1,0 +1,219 @@
+[
+  {
+    "file": "01-auth-login.svg",
+    "name": "Sign in",
+    "role": "Borrower",
+    "description": "Email/password authentication; sign-in journey.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "02-borrower-registration.svg",
+    "name": "Borrower registration",
+    "role": "Borrower",
+    "description": "Create an account and provide minimum borrower profile.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "03-borrower-dashboard.svg",
+    "name": "Borrower dashboard",
+    "role": "Borrower",
+    "description": "Applications, current loan status and balance in a role-specific home screen.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "04-loan-application-form.svg",
+    "name": "Loan application form",
+    "role": "Borrower",
+    "description": "Amount and purpose entry with submission guidance.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "05-application-review-submit.svg",
+    "name": "Review and submit application",
+    "role": "Borrower",
+    "description": "Pre-submit confirmation and pending status expectation.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "06-borrower-application-details.svg",
+    "name": "Borrower application details",
+    "role": "Borrower",
+    "description": "Status and transparent review timeline.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "07-borrower-loan-details.svg",
+    "name": "Borrower loan details",
+    "role": "Borrower",
+    "description": "Current loan summary, lifecycle, outstanding balance and event status.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "08-borrower-repayment-history.svg",
+    "name": "Borrower repayment history",
+    "role": "Borrower",
+    "description": "Repayment listing and current balance with privacy-safe references.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "09-officer-dashboard.svg",
+    "name": "Loan officer dashboard",
+    "role": "Loan Officer",
+    "description": "Operational queue, loan overview and chain status\u2014without automated scoring.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "10-officer-application-queue.svg",
+    "name": "Loan officer application queue",
+    "role": "Loan Officer",
+    "description": "Filterable, reviewable pending applications table.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "11-officer-application-review.svg",
+    "name": "Officer application review",
+    "role": "Loan Officer",
+    "description": "Application data and high-impact approve/reject actions.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "12-officer-approval-confirmation.svg",
+    "name": "Approve application confirmation",
+    "role": "Loan Officer",
+    "description": "Confirmation modal with separate operational and blockchain statuses.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "13-officer-rejection-confirmation.svg",
+    "name": "Reject application confirmation",
+    "role": "Loan Officer",
+    "description": "Destructive confirmation and final rejection state.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "14-officer-disbursement.svg",
+    "name": "Record disbursement",
+    "role": "Loan Officer",
+    "description": "Approved loan disbursement data entry with operation/chain distinction.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "15-officer-record-repayment.svg",
+    "name": "Record loan repayment",
+    "role": "Loan Officer",
+    "description": "Officer repayment recording form with balance validation and no payment integration.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "16-officer-loans.svg",
+    "name": "Officer loan register",
+    "role": "Loan Officer",
+    "description": "Active and completed operational loans.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "17-blockchain-event-history.svg",
+    "name": "Blockchain event history",
+    "role": "Loan Officer",
+    "description": "Verifiable event log and distinct pending/confirmed states.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "18-blockchain-pending-state.svg",
+    "name": "Blockchain pending state",
+    "role": "Loan Officer",
+    "description": "Explains operational success while chain recording is pending.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "19-blockchain-failure-state.svg",
+    "name": "Blockchain failure state",
+    "role": "Loan Officer",
+    "description": "Separate operational and failed chain state with retry caution.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "20-admin-dashboard.svg",
+    "name": "Administrator dashboard",
+    "role": "Administrator",
+    "description": "System account/activity overview without loan-officer decision controls.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "21-admin-user-management.svg",
+    "name": "Administrator user management",
+    "role": "Administrator",
+    "description": "User and role records with access to details.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "22-admin-user-details-role.svg",
+    "name": "Administrator user details and role",
+    "role": "Administrator",
+    "description": "Role management screen; no loan-decision tools.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "23-admin-activity-log.svg",
+    "name": "Administrator system activity",
+    "role": "Administrator",
+    "description": "Administrative activity with privacy-safe references.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "00-design-system.svg",
+    "name": "PesaChain design system",
+    "role": "System",
+    "description": "Color, type, spacing, status, controls and accessibility reference.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "24-mobile-borrower-dashboard.svg",
+    "name": "Mobile borrower dashboard",
+    "role": "Borrower",
+    "description": "Responsive stacked-card alternative for narrow screens.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "25-mobile-officer-queue.svg",
+    "name": "Mobile officer application queue",
+    "role": "Loan Officer",
+    "description": "Responsive card-based alternative to desktop table.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "26-mobile-borrower-loan-details.svg",
+    "name": "Mobile borrower loan details",
+    "role": "Borrower",
+    "description": "Responsive loan summary with readable balance and blockchain state.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "27-borrower-application-history.svg",
+    "name": "Borrower application history",
+    "role": "Borrower",
+    "description": "Dedicated searchable/list view for submitted application history.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "28-borrower-profile.svg",
+    "name": "Borrower profile",
+    "role": "Borrower",
+    "description": "Profile view/edit for SRS-permitted fields, with privacy explanation.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "29-officer-loan-detail.svg",
+    "name": "Officer loan detail",
+    "role": "Loan Officer",
+    "description": "Operational view for active loan, balance, repayments and allowed next actions.",
+    "canvas": "1440x1000"
+  },
+  {
+    "file": "30-loan-completion-success.svg",
+    "name": "Loan completion confirmation",
+    "role": "Loan Officer",
+    "description": "Clear completed loan state and separate blockchain event confirmation.",
+    "canvas": "1440x1000"
+  }
+]

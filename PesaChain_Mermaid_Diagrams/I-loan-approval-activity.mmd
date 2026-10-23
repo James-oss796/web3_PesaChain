@@ -1,0 +1,11 @@
+%% Loan Approval Activity
+flowchart TD
+Start([Start]) --> N0[Officer selects pending application]
+N0 --> N1[Verify officer role and pending state]
+N1 --> N2[Persist APPROVED decision, actor and timestamp]
+N2 --> N3[Create associated loan]
+N3 --> N4[Record LOAN_APPROVED blockchain event]
+N4 --> N5[Show decision and chain status]
+N5 --> End([End])
+V -- No --> Err[Reject invalid transition; no unauthorized mutation]
+V -- Yes --> N1

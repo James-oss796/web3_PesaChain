@@ -1,0 +1,11 @@
+%% System Context
+flowchart LR
+Borrower[Borrower] -->|profile, application, status, repayment views| Pesa[PesaChain]
+Officer[Loan Officer] -->|review, decisions, disbursement, repayment| Pesa
+Admin[Administrator] -->|user and role management, monitoring| Pesa
+Pesa -->|operational and sensitive data| DB[(PostgreSQL)]
+Pesa -->|selected loan event transactions| BC[Blockchain network + smart contract]
+Pesa -->|status/history| Borrower
+Pesa -->|loan queues and records| Officer
+Pesa -->|activity views| Admin
+Note[No payment rails: staff record real-world events] -. boundary .- Pesa

@@ -1,0 +1,12 @@
+%% Repayment Activity
+flowchart TD
+Start([Start]) --> N0[Select active loan]
+N0 --> N1[Enter amount/date/reference]
+N1 --> N2[Validate amount ≤ outstanding balance]
+N2 --> N3[Persist repayment and recompute balance atomically]
+N3 --> N4[If balance is zero transition to COMPLETED]
+N4 --> N5[Record REPAYMENT_RECORDED event]
+N5 --> N6[Show balance and event status]
+N6 --> End([End])
+V -- No --> Err[Reject invalid transition; no unauthorized mutation]
+V -- Yes --> N1

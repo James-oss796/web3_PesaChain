@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "hardhat": {
+      "source": "nomicfoundation/hardhat-skills",
+      "sourceType": "github",
+      "skillPath": "skills/hardhat/SKILL.md",
+      "computedHash": "0fc972ad238ae3662f2b07aec7414c62be381b442b3d915c5791eea7f81a726f"
+    },
+    "hardhat-toolbox-mocha-ethers": {
+      "source": "nomicfoundation/hardhat-skills",
+      "sourceType": "github",
+      "skillPath": "skills/hardhat-toolbox-mocha-ethers/SKILL.md",
+      "computedHash": "3c6c830b54f01504555a90ec29ca7808b4e1ea3d3c4e8d36a30e669fff06b34f"
+    },
+    "hardhat-toolbox-viem": {
+      "source": "nomicfoundation/hardhat-skills",
+      "sourceType": "github",
+      "skillPath": "skills/hardhat-toolbox-viem/SKILL.md",
+      "computedHash": "b966730c2d7d581e93637d0af87b110a3ad8929dd9fcc6820ff062f2fa59951d"
+    },
+    "migrate-foundry-to-hardhat": {
+      "source": "nomicfoundation/hardhat-skills",
+      "sourceType": "github",
+      "skillPath": "skills/migrate-foundry-to-hardhat/SKILL.md",
+      "computedHash": "396a122123b495e2472c67df4a913eb95b6a82032b9c2eaa2e4f5624ad7249a2"
+    },
+    "migrate-hardhat2-to-hardhat3": {
+      "source": "nomicfoundation/hardhat-skills",
+      "sourceType": "github",
+      "skillPath": "skills/migrate-hardhat2-to-hardhat3/SKILL.md",
+      "computedHash": "e433071dbc3a30be67496b9fe255c55a562f57da1b412484affed54bb4cd5229"
+    }
+  }
+}

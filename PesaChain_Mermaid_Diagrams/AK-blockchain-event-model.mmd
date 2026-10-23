@@ -1,0 +1,11 @@
+%% Blockchain Event Model
+flowchart LR
+App[Application decision] --> E1[LOAN_APPROVED or LOAN_REJECTED]
+Disb[Disbursement] --> E2[LOAN_DISBURSED]
+Pay[Repayment] --> E3[REPAYMENT_RECORDED]
+Zero[Balance reaches zero] --> E4[LOAN_COMPLETED]
+E1-->Store[(Contract event log)]
+E2-->Store
+E3-->Store
+E4-->Store
+Store-->Query[Filter by opaque loan ID; return event + tx hash]

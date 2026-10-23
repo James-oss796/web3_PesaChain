@@ -1,0 +1,11 @@
+%% Loan Disbursement Activity
+flowchart TD
+Start([Start]) --> N0[Select approved loan]
+N0 --> N1[Validate role and APPROVED state]
+N1 --> N2[Enter actual disbursement amount/date]
+N2 --> N3[Persist disbursement and transition to ACTIVE]
+N3 --> N4[Record LOAN_DISBURSED event]
+N4 --> N5[Show result and blockchain status]
+N5 --> End([End])
+V -- No --> Err[Reject invalid transition; no unauthorized mutation]
+V -- Yes --> N1

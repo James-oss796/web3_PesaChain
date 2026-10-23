@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17.11-alpine3.24
+    environment:
+      POSTGRES_DB: ${PESACHAIN_DB_NAME:-pesachain}
+      POSTGRES_USER: ${PESACHAIN_DB_USERNAME:-pesachain}
+      POSTGRES_PASSWORD: ${PESACHAIN_DB_PASSWORD:-B87FE04E67ED0D83A47AAD3D31BC9390447F47D754772534BDC99BAB6EC3ADAB}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pesachain-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  pesachain-postgres-data:

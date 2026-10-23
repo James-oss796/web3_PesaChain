@@ -1,0 +1,11 @@
+%% Loan Completion Activity
+flowchart TD
+Start([Start]) --> N0[Repayment committed]
+N0 --> N1[Compute outstanding balance]
+N1 --> N2[Balance equals zero?]
+N2 --> N3[Set loan COMPLETED and timestamp]
+N3 --> N4[Record LOAN_COMPLETED event]
+N4 --> N5[Show completed status]
+N5 --> End([End])
+V -- No --> Err[Reject invalid transition; no unauthorized mutation]
+V -- Yes --> N1

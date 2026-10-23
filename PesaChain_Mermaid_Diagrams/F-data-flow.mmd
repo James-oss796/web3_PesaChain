@@ -1,0 +1,12 @@
+%% System Data Flow
+flowchart LR
+Actors[Users] --> Web[React]
+Web -->|validated request| API[Spring API]
+API -->|authorize + business rules| Domain[Domain services]
+Domain <-->|operational CRUD| DB[(PostgreSQL)]
+Domain -->|selected event only| Adapter[Blockchain adapter]
+Adapter -->|tx and receipt| Chain[Smart contract]
+Chain -->|event + tx hash| Adapter
+Adapter -->|status metadata| DB
+DB -->|authorized query results| API
+API --> Web

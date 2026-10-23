@@ -1,0 +1,7 @@
+%% Smart Contract State/Data Model
+classDiagram
+class LoanEventRecord {bytes32 loanKey; EventType kind; uint256 amount; uint64 timestamp; address actor}
+class EventType {<<enumeration>> LOAN_APPROVED; LOAN_REJECTED; LOAN_DISBURSED; REPAYMENT_RECORDED; LOAN_COMPLETED}
+class LoanEvents {address owner; mapping(bytes32=>Event[]) history; mapping(bytes32=>bool) eventKeyUsed}
+LoanEvents --> LoanEventRecord
+LoanEventRecord --> EventType

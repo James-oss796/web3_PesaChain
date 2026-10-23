@@ -1,0 +1,17 @@
+%% End-to-End Loan Lifecycle
+flowchart LR
+Reg[Registration] --> Login[Authenticate]
+Login --> Apply[Submit PENDING application]
+Apply --> Review[Officer review]
+Review -->|Approve| Approved[APPROVED + create loan]
+Review -->|Reject| Rejected[REJECTED]
+Approved --> Disburse[Record disbursement]
+Disburse --> Active[ACTIVE]
+Active --> Repay[Record repayments]
+Repay -->|balance > 0| Active
+Repay -->|balance = 0| Complete[COMPLETED]
+Approved -. LOAN_APPROVED .-> Chain[Contract events]
+Rejected -. LOAN_REJECTED .-> Chain
+Disburse -. LOAN_DISBURSED .-> Chain
+Repay -. REPAYMENT_RECORDED .-> Chain
+Complete -. LOAN_COMPLETED .-> Chain

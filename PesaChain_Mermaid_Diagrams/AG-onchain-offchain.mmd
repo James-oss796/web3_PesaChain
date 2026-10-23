@@ -1,0 +1,15 @@
+%% On-chain vs Off-chain Data Architecture
+flowchart LR
+subgraph OffChain[PostgreSQL — private operational data]
+PII[PII, credentials hash, roles]
+Apps[Applications, decisions, loan records]
+Pays[Repayments, balances, references]
+Meta[Event status, tx hash, failure metadata]
+end
+subgraph OnChain[Blockchain — minimal audit facts]
+E[Loan opaque ID, event type, amount if applicable, timestamp, authorized caller]
+end
+Apps -. event projection .-> E
+Pays -. event projection .-> E
+Meta -. tx reference / confirmation .-> E
+PII -. MUST NOT be sent .-> E

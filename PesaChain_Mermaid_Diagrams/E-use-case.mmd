@@ -1,0 +1,13 @@
+%% Use Case Diagram
+flowchart LR
+Borrower((Borrower)) --> Register[Register / login]
+Borrower --> Profile[View/update own profile]
+Borrower --> Apply[Submit application]
+Borrower --> OwnRecords[View own applications, loans, repayments, balance]
+Borrower --> Verify[View blockchain history]
+Officer((Loan Officer)) --> Review[Review pending applications]
+Officer --> Decision[Approve or reject]
+Officer --> Manage[Record disbursement / repayment]
+Officer --> LoanView[View active/completed loans]
+Admin((Administrator)) --> Users[Manage users and roles]
+Admin --> Monitor[Monitor system and loan activity]

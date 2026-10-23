@@ -1,0 +1,11 @@
+%% Loan Application Activity
+flowchart TD
+Start([Start]) --> N0[Authenticate borrower]
+N0 --> V{Valid?}
+N0 --> N1[Enter amount and purpose]
+N1 --> N2[Validate required fields and ownership]
+N2 --> N3[Create uniquely identified PENDING application]
+N3 --> N4[Show confirmation and status]
+N4 --> End([End])
+V -- No --> Err[Reject with actionable validation message]
+V -- Yes --> N1

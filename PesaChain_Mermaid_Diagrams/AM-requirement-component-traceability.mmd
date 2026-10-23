@@ -1,0 +1,12 @@
+%% Requirement-to-Component Traceability
+flowchart LR
+FR[FR-01..FR-36 Core users, applications, loan, repayment] --> FE[React screens]
+FR --> BE[Spring controllers/services]
+FR --> DB[(PostgreSQL)]
+FR[FR-37..FR-47 Blockchain and failure] --> BC[Adapter + contract]
+NFR[NFR-01..NFR-25] --> SEC[Security, performance, integrity, usability, maintainability, compatibility]
+SEC --> FE
+SEC --> BE
+SEC --> DB
+SEC --> BC
+BE --> TEST[Mapped acceptance / API / integration tests]

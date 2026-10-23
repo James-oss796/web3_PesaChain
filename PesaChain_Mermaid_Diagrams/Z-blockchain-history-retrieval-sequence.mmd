@@ -1,0 +1,18 @@
+sequenceDiagram
+autonumber
+actor User
+participant Web
+participant API
+participant Service
+participant DB
+participant Chain
+User->>Web: Start Blockchain History Retrieval Sequence
+Web->>API: Send authenticated request
+API->>Service: Validate authorization and business rules
+Service->>DB: Read or persist operational record
+DB-->>Service: Return result
+Service->>Chain: Submit or retrieve selected loan event
+Chain-->>Service: Return status and transaction reference
+Service-->>API: Return operation and chain status
+API-->>Web: Return safe response
+Web-->>User: Display result and next action

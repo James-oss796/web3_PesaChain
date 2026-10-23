@@ -1,0 +1,7 @@
+%% Loan Application State
+stateDiagram-v2
+[*] --> PENDING: submit
+PENDING --> APPROVED: officer approves
+PENDING --> REJECTED: officer rejects
+APPROVED --> [*]: loan created
+REJECTED --> [*]

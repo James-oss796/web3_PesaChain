@@ -1,0 +1,13 @@
+%% Backend-to-Blockchain Integration
+flowchart LR
+  UI[React web client] -->|HTTPS REST / JSON| API[Spring Boot REST API]
+  API --> SEC[Authentication and RBAC]
+  API --> SVC[Domain services]
+  SVC --> DB[(PostgreSQL operational data)]
+  SVC --> EVENT[Event status metadata + idempotency]
+  SVC --> BCS[Blockchain adapter]
+  BCS --> RPC[Blockchain RPC]
+  RPC --> SC[LoanEvents smart contract]
+  Borrower --> UI
+  Officer[Loan Officer] --> UI
+  Admin[Administrator] --> UI

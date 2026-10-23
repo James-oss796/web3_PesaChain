@@ -1,0 +1,18 @@
+%% Database ER Diagram
+erDiagram
+ USER ||--o| BORROWER_PROFILE : has
+ USER ||--o{ LOAN_APPLICATION : submits
+ BORROWER_PROFILE ||--o{ LOAN_APPLICATION : owns
+ LOAN_APPLICATION ||--o| LOAN : produces
+ BORROWER_PROFILE ||--o{ LOAN : borrows
+ LOAN ||--o{ REPAYMENT : receives
+ USER ||--o{ REPAYMENT : records
+ LOAN ||--o{ BLOCKCHAIN_EVENT : has
+ USER ||--o{ ACTIVITY_LOG : performs
+ USER { uuid id PK string email UK string password_hash string role string status timestamp created_at }
+ BORROWER_PROFILE { uuid id PK uuid user_id FK string full_name string contact string identification string address }
+ LOAN_APPLICATION { uuid id PK uuid borrower_id FK decimal requested_amount string purpose string status timestamp submitted_at uuid decision_by FK }
+ LOAN { uuid id PK uuid borrower_id FK uuid application_id FK decimal principal decimal outstanding_balance string status timestamp disbursed_at }
+ REPAYMENT { uuid id PK uuid loan_id FK uuid recorded_by FK decimal amount timestamp paid_at string reference }
+ BLOCKCHAIN_EVENT { uuid id PK uuid loan_id FK string event_type decimal amount string tx_hash string status timestamp occurred_at }
+ ACTIVITY_LOG { uuid id PK uuid actor_id FK string action string entity_type timestamp created_at }

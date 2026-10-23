@@ -1,0 +1,11 @@
+%% Borrower Registration Activity
+flowchart TD
+Start([Start]) --> N0[Enter registration details]
+N0 --> V{Valid?}
+N0 --> N1[Validate fields]
+N1 --> N2[Check duplicate account]
+N2 --> N3[Hash password and create account]
+N3 --> N4[Return success and sign-in path]
+N4 --> End([End])
+V -- No --> Err[Reject with actionable validation message]
+V -- Yes --> N1

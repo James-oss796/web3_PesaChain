@@ -1,0 +1,17 @@
+%% Database Relational Schema
+flowchart TB
+U[USER id PK, email UNIQUE, password_hash, role, status]
+P[BORROWER_PROFILE id PK, user_id FK UNIQUE, PII]
+A[LOAN_APPLICATION id PK, borrower_id FK, requested_amount, purpose, status, decision_by FK]
+L[LOAN id PK, borrower_id FK, application_id FK UNIQUE, principal, outstanding_balance, status]
+R[REPAYMENT id PK, loan_id FK, recorded_by FK, amount, paid_at]
+B[BLOCKCHAIN_EVENT id PK, loan_id FK, type, amount, occurred_at, tx_hash UNIQUE nullable, status, error]
+X[ACTIVITY_LOG id PK, actor_id FK, action, entity, created_at]
+U-->P
+P-->A
+A-->L
+P-->L
+L-->R
+U-->R
+L-->B
+U-->X

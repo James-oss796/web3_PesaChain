@@ -1,0 +1,9 @@
+%% Deployment Diagram
+flowchart TB
+Browser[User browser] -->|HTTPS| Frontend[React static app]
+Frontend -->|HTTPS REST| Backend[Spring Boot application]
+Backend -->|JDBC TLS where available| DB[(PostgreSQL)]
+Backend -->|RPC| Chain[Local/dev blockchain node]
+Chain --> Contract[Deployed Solidity contract]
+Secrets[Environment-managed secrets] -. configuration .-> Backend
+Backup[Controlled database backup] -. operational .-> DB

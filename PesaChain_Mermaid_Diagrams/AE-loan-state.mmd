@@ -1,0 +1,7 @@
+%% Loan State
+stateDiagram-v2
+[*] --> APPROVED: approved application creates loan
+APPROVED --> ACTIVE: disbursement recorded
+ACTIVE --> ACTIVE: repayment leaves balance > 0
+ACTIVE --> COMPLETED: repayment makes balance = 0
+COMPLETED --> [*]

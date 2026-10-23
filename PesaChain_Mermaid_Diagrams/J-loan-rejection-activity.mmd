@@ -1,0 +1,11 @@
+%% Loan Rejection Activity
+flowchart TD
+Start([Start]) --> N0[Officer selects pending application]
+N0 --> N1[Verify officer role and pending state]
+N1 --> N2[Capture rejection decision]
+N2 --> N3[Persist REJECTED with actor and timestamp]
+N3 --> N4[Record LOAN_REJECTED event]
+N4 --> N5[Show rejection and chain status]
+N5 --> End([End])
+V -- No --> Err[Reject invalid transition; no unauthorized mutation]
+V -- Yes --> N1

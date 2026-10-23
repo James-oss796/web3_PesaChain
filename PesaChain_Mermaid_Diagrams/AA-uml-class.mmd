@@ -1,0 +1,15 @@
+%% UML Class Diagram
+classDiagram
+class User {+UUID id +String email +String passwordHash +Role role +AccountStatus status}
+class BorrowerProfile {+UUID id +UUID userId +String name +String contact +String identification}
+class LoanApplication {+UUID id +UUID borrowerId +Decimal requestedAmount +String purpose +ApplicationStatus status +Instant submittedAt +Instant decisionAt}
+class Loan {+UUID id +UUID borrowerId +UUID applicationId +Decimal principal +Decimal outstandingBalance +LoanStatus status +Instant disbursedAt +Instant completedAt}
+class Repayment {+UUID id +UUID loanId +Decimal amount +Instant paidAt +UUID recordedBy +String reference}
+class BlockchainEvent {+UUID id +UUID loanId +EventType type +Decimal amount +Instant occurredAt +String txHash +EventStatus status +String error}
+class ActivityLog {+UUID id +UUID actorId +String action +String entityType +UUID entityId +Instant createdAt}
+User "1" --> "0..1" BorrowerProfile
+BorrowerProfile "1" --> "0..*" LoanApplication
+LoanApplication "1" --> "0..1" Loan
+Loan "1" --> "0..*" Repayment
+Loan "1" --> "0..*" BlockchainEvent
+User "1" --> "0..*" ActivityLog

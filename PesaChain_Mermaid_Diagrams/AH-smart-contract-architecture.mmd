@@ -1,0 +1,8 @@
+%% Smart Contract Architecture
+flowchart TB
+Service[Authorized domain service] --> Adapter[Blockchain adapter]
+Adapter -->|sign + submit| Contract[LoanEvents.sol]
+Contract -->|emit immutable events| Log[Chain event log]
+Admin[Contract owner/admin] -->|configure authorized backend signer| Contract
+Reader[Backend read integration] -->|filter by opaque loan ID| Log
+Contract -->|reject unknown/duplicate/unauthorized| Adapter

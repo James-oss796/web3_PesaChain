@@ -1,0 +1,18 @@
+%% Component Diagram
+flowchart TB
+subgraph React[React frontend]
+Pages[Role-based screens] --> Client[API client]
+end
+subgraph Spring[Spring Boot]
+Ctrl[REST controllers] --> Auth[Spring Security / JWT]
+Ctrl --> DTO[DTO validation + mapping]
+DTO --> Services[Application services]
+Services --> Repos[Spring Data repositories]
+Services --> Domain[Domain rules / lifecycle]
+Services --> Adapter[Blockchain adapter]
+end
+Client --> Ctrl
+Repos --> PG[(PostgreSQL)]
+Adapter --> RPC[JSON-RPC]
+RPC --> Contract[Solidity contract]
+Services --> Logs[Audit/error logs]

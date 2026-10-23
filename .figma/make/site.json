@@ -1,0 +1,11 @@
+{
+  "title": "PesaChain — Loan management and event transparency",
+  "description": "Manage loan applications, human-reviewed decisions, disbursement, and simulated repayments in one structured workflow. Selected financial events have separate blockchain records; borrower information stays in the operational database.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -1,0 +1,25 @@
+%% RBAC Authorization Model
+flowchart LR
+subgraph Borrower
+B1[Own profile/applications/loans/repayments read]
+B2[Create application; update permitted profile]
+end
+subgraph LoanOfficer
+O1[Review applications]
+O2[Approve/reject pending applications]
+O3[Manage disbursement and repayments]
+O4[View active/completed loans and event history]
+end
+subgraph Administrator
+A1[Manage user accounts and roles]
+A2[Monitor activity]
+end
+Policy[Backend Spring Security + ownership checks]
+B1-->Policy
+B2-->Policy
+O1-->Policy
+O2-->Policy
+O3-->Policy
+O4-->Policy
+A1-->Policy
+A2-->Policy
