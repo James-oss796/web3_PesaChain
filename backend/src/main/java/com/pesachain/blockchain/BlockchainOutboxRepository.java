@@ -24,10 +24,10 @@ public class BlockchainOutboxRepository {
                 + " WHERE ((status IN ('PENDING','SUBMITTED') AND next_attempt_at<=now())"
                 + " OR (status='FAILED' AND retryable AND next_attempt_at<=now())"
                 + " OR (status='PROCESSING' AND lease_until<now()))"
-                + " AND (transaction_hash IS NOT NULL OR attempt_count < ?)"
+                + " AND (transaction_hash IS NOT NULL OR attempt_count < ? OR manual_retry_requested)"
                 + " ORDER BY next_attempt_at,created_at,event_id FOR UPDATE SKIP LOCKED LIMIT 1"
                 + ") UPDATE blockchain_outbox b SET status='PROCESSING',lease_owner=?,"
-                + " lease_until=now()+(? * interval '1 millisecond'),"
+                + " lease_until=now()+(? * interval '1 millisecond'),manual_retry_requested=false,"
                 + " attempt_count=b.attempt_count+CASE WHEN b.transaction_hash IS NULL THEN 1 ELSE 0 END,"
                 + " updated_at=now(),version=version+1 FROM candidate c WHERE b.event_id=c.event_id"
                 + " RETURNING b.*,c.previous_status";
@@ -91,15 +91,43 @@ public class BlockchainOutboxRepository {
         }
     }
 
+    @Transactional(readOnly = true)
+    public java.util.Map<String, Long> statusCounts() {
+        java.util.Map<String, Long> result = new java.util.LinkedHashMap<>();
+        jdbc.query("SELECT status,count(*) AS total FROM blockchain_outbox GROUP BY status", (org.springframework.jdbc.core.RowCallbackHandler) rs ->
+                result.put(rs.getString("status"), rs.getLong("total")));
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<String> status(UUID eventId) {
+        return jdbc.query("SELECT status FROM blockchain_outbox WHERE event_id=?", rs ->
+                rs.next() ? Optional.of(rs.getString(1)) : Optional.empty(), eventId);
+    }
+
+    /** Queues a deliberate administrative redrive while retaining total attempt history. */
+    @Transactional
+    public boolean queueManualRetry(UUID eventId, UUID administratorId) {
+        int changed = jdbc.update("UPDATE blockchain_outbox SET retryable=true,manual_retry_requested=true,next_attempt_at=now(),"
+                        + "updated_at=now(),version=version+1 WHERE event_id=? AND status='FAILED' AND lease_owner IS NULL",
+                eventId);
+        if (changed == 1) {
+            jdbc.update("INSERT INTO audit_log(actor_id,actor_role,action,target_type,target_id) "
+                            + "VALUES(?,'ADMINISTRATOR','BLOCKCHAIN_DELIVERY_RETRY_QUEUED','BLOCKCHAIN_EVENT',?)",
+                    administratorId, eventId);
+        }
+        return changed == 1;
+    }
+
     @Transactional
     public List<StatusView> listStatus(String status, int limit, int offset) {
         if (status == null) {
             return jdbc.query("SELECT event_id,event_type,amount_minor_units,status,transaction_hash,block_number,confirmation_count,"
-                            + "attempt_count,last_error_code,occurred_at,recorded_at FROM blockchain_outbox ORDER BY created_at DESC,event_id LIMIT ? OFFSET ?",
+                            + "attempt_count,retryable,last_error_code,occurred_at,recorded_at FROM blockchain_outbox ORDER BY created_at DESC,event_id LIMIT ? OFFSET ?",
                     this::mapStatus, limit, offset);
         }
         return jdbc.query("SELECT event_id,event_type,amount_minor_units,status,transaction_hash,block_number,confirmation_count,"
-                        + "attempt_count,last_error_code,occurred_at,recorded_at FROM blockchain_outbox WHERE status=? ORDER BY created_at DESC,event_id LIMIT ? OFFSET ?",
+                        + "attempt_count,retryable,last_error_code,occurred_at,recorded_at FROM blockchain_outbox WHERE status=? ORDER BY created_at DESC,event_id LIMIT ? OFFSET ?",
                 this::mapStatus, status, limit, offset);
     }
 
@@ -117,7 +145,7 @@ public class BlockchainOutboxRepository {
     @Transactional(readOnly = true)
     public List<StatusView> listLoanStatus(UUID loanId, UUID borrowerId) {
         return jdbc.query("SELECT o.event_id,o.event_type,o.amount_minor_units,o.status,o.transaction_hash,o.block_number,o.confirmation_count,"
-                        + "o.attempt_count,o.last_error_code,o.occurred_at,o.recorded_at FROM blockchain_outbox o "
+                        + "o.attempt_count,o.retryable,o.last_error_code,o.occurred_at,o.recorded_at FROM blockchain_outbox o "
                         + "JOIN loans l ON ((o.aggregate_type='LOAN' AND l.id=o.aggregate_id) OR (o.aggregate_type='APPLICATION' AND l.application_id=o.aggregate_id)) "
                         + "WHERE l.id=? AND l.borrower_id=? "
                         + "ORDER BY o.occurred_at,o.event_id",
@@ -163,7 +191,7 @@ public class BlockchainOutboxRepository {
         return new StatusView(rs.getObject("event_id", UUID.class), rs.getString("event_type"),
                 rs.getBigDecimal("amount_minor_units"), rs.getString("status"), rs.getString("transaction_hash"),
                 bigInt(rs, "block_number"), rs.getInt("confirmation_count"), rs.getInt("attempt_count"),
-                rs.getString("last_error_code"), instant(rs, "occurred_at"), instant(rs, "recorded_at"));
+                rs.getBoolean("retryable"), rs.getString("last_error_code"), instant(rs, "occurred_at"), instant(rs, "recorded_at"));
     }
 
     private static String safeCode(String code) {
@@ -179,7 +207,7 @@ public class BlockchainOutboxRepository {
 
     public record StatusView(UUID eventId, String eventType, java.math.BigDecimal amountMinorUnits,
             String status, String transactionHash, BigInteger blockNumber, int confirmationCount,
-            int attemptCount, String lastErrorCode, Instant occurredAt, Instant recordedAt) {}
+            int attemptCount, boolean retryable, String lastErrorCode, Instant occurredAt, Instant recordedAt) {}
     public record FindingView(UUID id, UUID eventId, String chainEventId, String findingCode, String transactionHash,
             BigInteger blockNumber, Instant firstSeenAt, Instant lastSeenAt, int occurrenceCount, Instant resolvedAt) {}
 }

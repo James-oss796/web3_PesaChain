@@ -32,7 +32,7 @@ class FlywayMigrationPostgresTest {
                 var statement = connection.createStatement()) {
             try (var migrations = statement.executeQuery("SELECT count(*) FROM flyway_schema_history WHERE success")) {
                 assertTrue(migrations.next());
-                assertEquals(10, migrations.getInt(1));
+                assertEquals(11, migrations.getInt(1));
             }
             try (var tables = statement.executeQuery(
                     "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' "
@@ -44,11 +44,15 @@ class FlywayMigrationPostgresTest {
                 assertTrue(columns.next());
                 assertEquals(1, columns.getInt(1));
             }
+            try (var column = statement.executeQuery("SELECT count(*) FROM information_schema.columns WHERE table_schema='public' AND table_name='blockchain_outbox' AND column_name='manual_retry_requested'")) {
+                assertTrue(column.next());
+                assertEquals(1, column.getInt(1));
+            }
         }
     }
 
     @Test
-    void additiveV10UpgradePreservesRowsFromAnAlreadyMigratedV7Schema() throws Exception {
+    void additiveLatestUpgradePreservesRowsFromAnAlreadyMigratedV7Schema() throws Exception {
         String schema = "v7_upgrade_test";
         try (var connection = DriverManager.getConnection(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
                 var statement = connection.createStatement()) {
@@ -81,7 +85,7 @@ class FlywayMigrationPostgresTest {
             }
             try (var version = statement.executeQuery("SELECT version FROM " + schema + ".flyway_schema_history WHERE success ORDER BY installed_rank DESC LIMIT 1")) {
                 assertTrue(version.next());
-                assertEquals("10", version.getString(1));
+                assertEquals("11", version.getString(1));
             }
             try (var column = statement.executeQuery("SELECT count(*) FROM information_schema.columns WHERE table_schema='" + schema + "' AND table_name='loan_applications' AND column_name='idempotency_key'")) {
                 assertTrue(column.next());

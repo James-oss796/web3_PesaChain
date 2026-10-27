@@ -8,4 +8,5 @@ public interface BlockchainClient {
     Optional<ChainEventEvidence> find(OutboxEvent event);
     Optional<ChainEventEvidence> receipt(OutboxEvent event, String transactionHash);
     List<ChainEventEvidence> allEvents();
+    BlockchainNodeHealth health();
 }

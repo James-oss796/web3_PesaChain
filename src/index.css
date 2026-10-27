@@ -1954,3 +1954,655 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .landing .hero-visual { display: none; }
   .landing .journey-preview-trigger { display: inline-flex; }
 }
+
+/* Restrained PesaChain glass: translucent fills + strong backdrop blur + a lit edge. */
+.landing > header.public-nav {
+  background: linear-gradient(115deg, rgba(248, 231, 201, .24), rgba(255, 254, 250, .76) 48%, rgba(255, 254, 250, .7));
+  border-color: rgba(6, 78, 59, .2);
+  -webkit-backdrop-filter: blur(26px) saturate(1.38);
+  backdrop-filter: blur(26px) saturate(1.38);
+  box-shadow: 0 14px 36px rgba(16, 48, 33, .14), inset 0 1px rgba(255, 255, 255, .78);
+}
+
+.landing .hero::before {
+  background: linear-gradient(120deg, rgba(255, 254, 250, .88), rgba(248, 231, 201, .2) 72%, rgba(255, 254, 250, .74));
+  border-color: rgba(255, 255, 255, .78);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow: 0 24px 70px rgba(23, 55, 38, .08), inset 0 1px rgba(255, 255, 255, .78);
+}
+
+.landing .hero-visual,
+.landing .journey-preview,
+.landing .roles-section,
+.landing .evidence-visual,
+.landing .faq-section,
+.landing .how-grid .workflow-step {
+  -webkit-backdrop-filter: blur(20px) saturate(1.16);
+  backdrop-filter: blur(20px) saturate(1.16);
+}
+.landing .hero-visual {
+  background: linear-gradient(140deg, rgba(234, 242, 233, .82), rgba(248, 231, 201, .2));
+  border-color: rgba(255, 255, 255, .78);
+  box-shadow: inset 0 1px rgba(255,255,255,.78), 0 22px 56px rgba(23,55,38,.1);
+}
+.landing .journey-preview {
+  background: linear-gradient(145deg, rgba(255,254,250,.9), rgba(248,231,201,.18));
+  border-color: rgba(255,255,255,.84);
+  box-shadow: 0 22px 54px rgba(15,58,40,.16), inset 0 1px rgba(255,255,255,.85);
+}
+.landing .how-grid .workflow-step {
+  padding: 1.4rem;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgba(255,254,250,.82), rgba(248,231,201,.14));
+  box-shadow: 0 12px 30px rgba(23,55,38,.06), inset 0 1px rgba(255,255,255,.78);
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+.landing .how-grid .workflow-step + .workflow-step { padding-left: 1.4rem; border-left: 1px solid rgba(255,255,255,.72); }
+.landing .how-grid .workflow-step:hover {
+  transform: translateY(-4px);
+  border-color: rgba(6,78,59,.18);
+  box-shadow: 0 18px 38px rgba(23,55,38,.1), inset 0 1px rgba(255,255,255,.86);
+}
+.landing .roles-section {
+  background: linear-gradient(135deg, rgba(255,254,250,.84), rgba(232,239,228,.72) 58%, rgba(248,231,201,.14));
+  border: 1px solid rgba(255,255,255,.78);
+  box-shadow: 0 20px 54px rgba(23,55,38,.08), inset 0 1px rgba(255,255,255,.8);
+}
+.landing .evidence-visual {
+  background: linear-gradient(135deg, rgba(255,254,250,.82), rgba(248,231,201,.14));
+  border-color: rgba(255,255,255,.82);
+  box-shadow: 0 18px 44px rgba(23,55,38,.08), inset 0 1px rgba(255,255,255,.82);
+}
+.landing .evidence-visual > div {
+  background: rgba(255,254,250,.78);
+  border-color: rgba(255,255,255,.84);
+  box-shadow: 0 8px 22px rgba(23,55,38,.06), inset 0 1px rgba(255,255,255,.9);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
+  backdrop-filter: blur(16px) saturate(1.12);
+}
+.landing .evidence-visual > .evidence-chain {
+  background: linear-gradient(145deg, rgba(6,78,59,.94), rgba(8,57,43,.9));
+  border-color: rgba(248,231,201,.38);
+}
+.landing .faq-section {
+  background: rgba(255,254,250,.82);
+  border: 1px solid rgba(255,255,255,.82);
+  box-shadow: 0 20px 54px rgba(23,55,38,.075), inset 0 1px rgba(255,255,255,.9);
+}
+
+.app-shell .shell-main {
+  background-image: radial-gradient(ellipse at 94% 2%, rgba(248,231,201,.09), transparent 34%), radial-gradient(ellipse at 4% 42%, rgba(6,78,59,.045), transparent 38%);
+}
+.app-shell .topbar {
+  background: linear-gradient(110deg, rgba(248,231,201,.16), rgba(255,254,250,.68) 52%, rgba(255,254,250,.62));
+  border-color: rgba(6,78,59,.16);
+  -webkit-backdrop-filter: blur(30px) saturate(1.24);
+  backdrop-filter: blur(30px) saturate(1.24);
+  box-shadow: 0 8px 24px rgba(16,48,33,.08), inset 0 1px rgba(255,255,255,.82);
+}
+.app-shell .content .card {
+  background: linear-gradient(145deg, rgba(255,254,250,.88), rgba(248,231,201,.1));
+  border-color: rgba(255,255,255,.88);
+  box-shadow: 0 14px 36px rgba(16,48,33,.075), inset 0 1px rgba(255,255,255,.86);
+  -webkit-backdrop-filter: blur(20px) saturate(1.12);
+  backdrop-filter: blur(20px) saturate(1.12);
+}
+
+.app-shell[data-theme="dark"] .shell-main {
+  background-image: radial-gradient(ellipse at 94% 2%, rgba(248,231,201,.075), transparent 34%), radial-gradient(ellipse at 4% 42%, rgba(61,110,78,.1), transparent 38%);
+}
+.app-shell[data-theme="dark"] .topbar {
+  background: linear-gradient(110deg, rgba(34,44,37,.74), rgba(25,33,28,.78) 55%, rgba(25,33,28,.72));
+  border-color: rgba(248,231,201,.16);
+  -webkit-backdrop-filter: blur(30px) saturate(1.2);
+  backdrop-filter: blur(30px) saturate(1.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.08);
+}
+.app-shell[data-theme="dark"] .content .card {
+  background: linear-gradient(145deg, rgba(34,43,36,.88), rgba(25,33,28,.82));
+  border-color: rgba(248,231,201,.14);
+  box-shadow: 0 16px 38px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(22px) saturate(1.12);
+  backdrop-filter: blur(22px) saturate(1.12);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .landing > header.public-nav { background: rgba(255,254,250,.96); }
+  .landing .hero::before,
+  .landing .hero-visual,
+  .landing .journey-preview,
+  .landing .roles-section,
+  .landing .evidence-visual,
+  .landing .evidence-visual > div,
+  .landing .faq-section,
+  .landing .how-grid .workflow-step,
+  .app-shell .topbar,
+  .app-shell .content .card { background-color: #fffefa; }
+  .app-shell[data-theme="dark"] .topbar,
+  .app-shell[data-theme="dark"] .content .card { background-color: #202a23; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .landing > header.public-nav { background: rgba(255,254,250,.96); }
+  .landing .hero::before,
+  .landing .roles-section,
+  .landing .evidence-visual,
+  .landing .faq-section,
+  .landing .how-grid .workflow-step,
+  .app-shell .topbar,
+  .app-shell .content .card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .app-shell .content .card { background: rgba(255,254,250,.97); }
+  .app-shell[data-theme="dark"] .topbar,
+  .app-shell[data-theme="dark"] .content .card { background: rgba(25,33,28,.98); }
+}
+
+/* Sequential scroll reveal for the four-step loan process. */
+.workflow-reveal.reveal-ready .workflow-step {
+  opacity: 0;
+  transform: translate3d(0, 1.6rem, 0) scale(.975);
+  transition: opacity 1.12s ease, transform 1.28s cubic-bezier(.2,.75,.25,1), box-shadow .32s ease, border-color .32s ease;
+}
+.workflow-reveal.reveal-ready .workflow-step:nth-child(2) { transform: translate3d(1.1rem, 1.25rem, 0) scale(.975); }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(3) { transform: translate3d(-1.1rem, 1.25rem, 0) scale(.975); }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(4) { transform: translate3d(0, 1.6rem, 0) scale(.975); }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(1) { transition-delay: .6s, .6s, 0s, 0s; }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(2) { transition-delay: .4s, .4s, 0s, 0s; }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(3) { transition-delay: .2s, .2s, 0s, 0s; }
+.workflow-reveal.reveal-ready .workflow-step:nth-child(4) { transition-delay: 0s, 0s, 0s, 0s; }
+.workflow-reveal.reveal-ready.is-visible .workflow-step { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+.workflow-reveal.reveal-ready.is-visible .workflow-step:nth-child(1) { transition-delay: 0s, 0s, 0s, 0s; }
+.workflow-reveal.reveal-ready.is-visible .workflow-step:nth-child(2) { transition-delay: .2s, .2s, 0s, 0s; }
+.workflow-reveal.reveal-ready.is-visible .workflow-step:nth-child(3) { transition-delay: .4s, .4s, 0s, 0s; }
+.workflow-reveal.reveal-ready.is-visible .workflow-step:nth-child(4) { transition-delay: .6s, .6s, 0s, 0s; }
+.landing .workflow-reveal .workflow-step:hover {
+  transform: translate3d(0,-.35rem,0) scale(1.01);
+  border-color: rgba(6,78,59,.28);
+  box-shadow: 0 20px 40px rgba(23,55,38,.13), inset 0 2px rgba(248,231,201,.9);
+}
+.landing .workflow-step:focus-within {
+  outline: 3px solid rgba(149,105,28,.62);
+  outline-offset: 3px;
+}
+.landing .scroll-reveal.reveal-ready > * { transition-duration: 1.16s, 1.34s; }
+.landing .roles-section.reveal-ready > .role-list,
+.landing .evidence-section.reveal-ready > .evidence-visual { transition-delay: .22s; }
+.landing .role-list article:nth-child(2) { transition-delay: .24s; }
+.landing .role-list article:nth-child(3) { transition-delay: .48s; }
+.landing > header.public-nav { transition-duration: .42s, .36s, .4s; }
+.landing .journey-dialog[open] { animation-duration: .42s; }
+@media (prefers-reduced-motion: reduce) {
+  .workflow-reveal.reveal-ready .workflow-step,
+  .workflow-reveal.reveal-ready.is-visible .workflow-step {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    transition-delay: 0s !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .landing .how-grid .workflow-step { padding: 1.15rem; }
+  .landing .how-grid .workflow-step + .workflow-step { padding-left: 1.15rem; }
+}
+
+/* Shared textured base layer across public, authentication, and workspace surfaces. */
+:root {
+  --base-texture-dot: rgba(6, 78, 59, .035);
+  --base-emerald-wash: rgba(6, 78, 59, .055);
+  --base-champagne-wash: rgba(248, 231, 201, .3);
+}
+body {
+  background-color: #edf1e8;
+  background-image:
+    radial-gradient(circle, var(--base-texture-dot) .7px, transparent .9px),
+    radial-gradient(ellipse at 84% 4%, var(--base-champagne-wash), transparent 36%),
+    radial-gradient(ellipse at 4% 74%, var(--base-emerald-wash), transparent 38%),
+    linear-gradient(145deg, #f4f5ee 0%, #e8eee5 54%, #f1eee3 100%);
+  background-size: 18px 18px, auto, auto, auto;
+  background-attachment: fixed;
+}
+.landing::before {
+  background-color: #edf1e8;
+  background-image:
+    radial-gradient(circle, rgba(6,78,59,.035) .7px, transparent .9px),
+    radial-gradient(ellipse at 78% 10%, rgba(248,231,201,.34), transparent 39%),
+    radial-gradient(ellipse at 8% 72%, rgba(6,78,59,.07), transparent 40%),
+    linear-gradient(160deg, #f3f5ed 0%, #e8eee5 56%, #f2efe5 100%);
+  background-size: 18px 18px, auto, auto, auto;
+}
+.auth-layout {
+  background-color: #edf1e8;
+  background-image:
+    radial-gradient(circle, rgba(6,78,59,.032) .7px, transparent .9px),
+    radial-gradient(ellipse at 92% 8%, rgba(248,231,201,.34), transparent 40%),
+    radial-gradient(ellipse at 55% 92%, rgba(6,78,59,.065), transparent 42%),
+    linear-gradient(145deg, #f3f5ee, #e9efe6 60%, #f1eee5);
+  background-size: 18px 18px, auto, auto, auto;
+}
+.auth-main { background: transparent; }
+.app-shell {
+  background-color: #edf1e8;
+  background-image:
+    radial-gradient(circle, rgba(6,78,59,.03) .7px, transparent .9px),
+    radial-gradient(ellipse at 93% 1%, rgba(248,231,201,.34), transparent 34%),
+    radial-gradient(ellipse at 14% 78%, rgba(6,78,59,.06), transparent 38%),
+    linear-gradient(145deg, #f4f5ef, #e8eee5 62%, #f1efe6);
+  background-size: 18px 18px, auto, auto, auto;
+}
+.app-shell .shell-main,
+.app-shell .content,
+.app-shell[data-theme="dark"] .shell-main,
+.app-shell[data-theme="dark"] .content {
+  background-color: transparent;
+}
+.app-shell[data-theme="dark"] {
+  --base-texture-dot: rgba(248,231,201,.035);
+  --base-emerald-wash: rgba(44,103,70,.16);
+  --base-champagne-wash: rgba(248,231,201,.075);
+  background-color: #111713;
+  background-image:
+    radial-gradient(circle, rgba(248,231,201,.028) .7px, transparent .9px),
+    radial-gradient(ellipse at 92% 0%, rgba(248,231,201,.085), transparent 36%),
+    radial-gradient(ellipse at 8% 72%, rgba(35,91,59,.24), transparent 42%),
+    linear-gradient(145deg, #151c17 0%, #111713 60%, #182019 100%);
+  background-size: 18px 18px, auto, auto, auto;
+}
+.not-found-page {
+  background-color: #edf1e8;
+  background-image:
+    radial-gradient(circle, rgba(6,78,59,.035) .7px, transparent .9px),
+    radial-gradient(ellipse at 50% 44%, rgba(248,231,201,.42), transparent 42%),
+    linear-gradient(145deg, #f3f5ee, #e7ede4);
+  background-size: 18px 18px, auto, auto;
+}
+
+@media (max-width: 820px) {
+  body { background-attachment: scroll; }
+  .landing::before { background-attachment: scroll; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .auth-main { background-color: transparent; }
+}
+
+/* Refined frosted surfaces: keep the background perceptible, with readable, calm panels. */
+.landing > header.public-nav {
+  background: linear-gradient(115deg, rgba(255, 254, 250, .94), rgba(255, 255, 253, .9) 54%, rgba(248, 250, 246, .92));
+  border-color: rgba(6, 78, 59, .14);
+  -webkit-backdrop-filter: blur(32px) saturate(1.18);
+  backdrop-filter: blur(32px) saturate(1.18);
+  box-shadow: 0 12px 32px rgba(22, 43, 32, .12), inset 0 1px rgba(255, 255, 255, .96);
+}
+.landing .hero::before {
+  background: linear-gradient(122deg, rgba(255, 254, 250, .95), rgba(247, 250, 246, .91) 70%, rgba(255, 254, 250, .94));
+  border-color: rgba(255, 255, 255, .94);
+  -webkit-backdrop-filter: blur(28px) saturate(1.12);
+  backdrop-filter: blur(28px) saturate(1.12);
+  box-shadow: 0 24px 68px rgba(23, 55, 38, .09), inset 0 1px rgba(255, 255, 255, .98);
+}
+.landing .hero-visual,
+.landing .journey-preview,
+.landing .roles-section,
+.landing .evidence-visual,
+.landing .faq-section,
+.landing .how-grid .workflow-step {
+  -webkit-backdrop-filter: blur(26px) saturate(1.12);
+  backdrop-filter: blur(26px) saturate(1.12);
+  border-color: rgba(255, 255, 255, .94);
+}
+.landing .hero-visual {
+  background: linear-gradient(142deg, rgba(246, 250, 246, .94), rgba(255, 254, 250, .91));
+  box-shadow: inset 0 1px rgba(255,255,255,.98), 0 22px 54px rgba(23,55,38,.09);
+}
+.landing .journey-preview,
+.landing .how-grid .workflow-step {
+  background: linear-gradient(145deg, rgba(255,254,250,.96), rgba(249,250,246,.92));
+  box-shadow: 0 16px 42px rgba(15,58,40,.11), inset 0 1px rgba(255,255,255,.98);
+}
+.landing .how-grid .workflow-step { border-color: rgba(6,78,59,.1); }
+.landing .how-grid .workflow-step + .workflow-step { border-left-color: rgba(6,78,59,.1); }
+.landing .roles-section {
+  background: linear-gradient(135deg, rgba(255,254,250,.96), rgba(245,249,244,.94) 62%, rgba(255,254,250,.92));
+  border-color: rgba(6,78,59,.1);
+  box-shadow: 0 20px 54px rgba(23,55,38,.09), inset 0 1px rgba(255,255,255,.98);
+}
+.landing .evidence-visual {
+  background: linear-gradient(135deg, rgba(255,254,250,.95), rgba(246,249,245,.92));
+  border-color: rgba(6,78,59,.1);
+}
+.landing .evidence-visual > div {
+  background: rgba(255,254,250,.94);
+  border-color: rgba(6,78,59,.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+  backdrop-filter: blur(24px) saturate(1.1);
+}
+.landing .faq-section {
+  background: rgba(255,254,250,.95);
+  border-color: rgba(6,78,59,.1);
+}
+.app-shell .topbar {
+  background: linear-gradient(110deg, rgba(255,254,250,.94), rgba(255,255,253,.91) 55%, rgba(248,250,246,.93));
+  border-color: rgba(6,78,59,.13);
+  -webkit-backdrop-filter: blur(32px) saturate(1.16);
+  backdrop-filter: blur(32px) saturate(1.16);
+  box-shadow: 0 9px 26px rgba(16,48,33,.09), inset 0 1px rgba(255,255,255,.98);
+}
+.app-shell .content .card {
+  background: linear-gradient(145deg, rgba(255,254,250,.96), rgba(249,250,247,.93));
+  border-color: rgba(6,78,59,.1);
+  box-shadow: 0 14px 34px rgba(16,48,33,.07), inset 0 1px rgba(255,255,255,.98);
+  -webkit-backdrop-filter: blur(26px) saturate(1.1);
+  backdrop-filter: blur(26px) saturate(1.1);
+}
+.app-shell[data-theme="dark"] .topbar {
+  background: linear-gradient(110deg, rgba(28,34,30,.95), rgba(24,30,26,.93) 55%, rgba(29,34,30,.95));
+  border-color: rgba(248,231,201,.15);
+  -webkit-backdrop-filter: blur(32px) saturate(1.08);
+  backdrop-filter: blur(32px) saturate(1.08);
+  box-shadow: 0 9px 26px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.1);
+}
+.app-shell[data-theme="dark"] .content .card {
+  background: linear-gradient(145deg, rgba(31,37,33,.96), rgba(25,31,27,.94));
+  border-color: rgba(248,231,201,.13);
+  box-shadow: 0 16px 36px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(28px) saturate(1.08);
+  backdrop-filter: blur(28px) saturate(1.08);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .landing > header.public-nav { background: #fffefa; }
+  .landing .hero::before,
+  .landing .hero-visual,
+  .landing .journey-preview,
+  .landing .roles-section,
+  .landing .evidence-visual,
+  .landing .evidence-visual > div,
+  .landing .faq-section,
+  .landing .how-grid .workflow-step,
+  .app-shell .topbar,
+  .app-shell .content .card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .app-shell[data-theme="dark"] .topbar { background: #1c221e; }
+  .app-shell[data-theme="dark"] .content .card { background: #1f2521; }
+}
+
+/* Success confirmations arrive in a readable sequence, then exit without a layout snap. */
+.submission-confirmation {
+  padding-right: 3.25rem;
+  animation: confirmation-arrive .72s cubic-bezier(.2,.78,.25,1) both;
+  transform-origin: top center;
+  transition: opacity .62s ease, transform .62s cubic-bezier(.55,0,.8,.35), filter .62s ease, max-height .62s ease, margin .62s ease, padding .62s ease;
+}
+.submission-confirmation-mark { animation: confirmation-mark .76s cubic-bezier(.18,.85,.3,1.3) .08s both; }
+.submission-confirmation-copy > .eyebrow { display: inline-block; animation: confirmation-copy-in .55s ease-out .2s both; }
+.submission-confirmation-copy h2 { animation: confirmation-copy-in .65s cubic-bezier(.2,.7,.25,1) .31s both; }
+.submission-confirmation-copy > p { animation: confirmation-copy-in .65s cubic-bezier(.2,.7,.25,1) .43s both; }
+.submission-confirmation-details > div { animation: confirmation-detail-in .62s cubic-bezier(.2,.7,.25,1) both; }
+.submission-confirmation-details > div:nth-child(1) { animation-delay: .54s; }
+.submission-confirmation-details > div:nth-child(2) { animation-delay: .64s; }
+.submission-confirmation-details > div:nth-child(3) { animation-delay: .74s; }
+.submission-confirmation-details > div:nth-child(4) { animation-delay: .84s; }
+.submission-confirmation-actions { animation: confirmation-copy-in .62s ease-out .78s both; }
+.submission-confirmation-dismiss {
+  position: absolute;
+  z-index: 1;
+  top: .65rem;
+  right: .65rem;
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid rgba(6,78,59,.12);
+  border-radius: .7rem;
+  background: rgba(255,255,255,.62);
+  color: #345343;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .18s ease, transform .18s ease;
+}
+.submission-confirmation-dismiss:hover { background: rgba(248,231,201,.76); transform: rotate(5deg); }
+.submission-confirmation-dismiss:focus-visible { outline: 3px solid #0b6b50; outline-offset: 2px; }
+.submission-confirmation-timer {
+  position: absolute;
+  inset: auto 0 0;
+  height: 3px;
+  overflow: hidden;
+  background: rgba(6,78,59,.08);
+}
+.submission-confirmation-timer::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, #064e3b, #83a98a 72%, #d5b36f);
+  animation: confirmation-countdown 6.8s linear .5s both;
+}
+.submission-confirmation.is-leaving {
+  max-height: 0;
+  margin-block: 0;
+  padding-block: 0;
+  border-width: 0;
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateY(-1rem) scale(.975);
+  pointer-events: none;
+}
+.submission-confirmation.is-leaving::before,
+.submission-confirmation.is-leaving .submission-confirmation-timer { opacity: 0; }
+.app-shell[data-theme="dark"] .submission-confirmation-dismiss { color: #e3e9e2; background: rgba(15,22,18,.68); border-color: rgba(248,231,201,.18); }
+.app-shell[data-theme="dark"] .submission-confirmation-dismiss:hover { background: rgba(248,231,201,.14); }
+.app-shell[data-theme="dark"] .submission-confirmation-timer { background: rgba(255,255,255,.1); }
+@keyframes confirmation-arrive { from { opacity: 0; transform: translateY(1.1rem) scale(.975); filter: blur(5px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes confirmation-mark { 0% { opacity: 0; transform: translateY(.6rem) scale(.72) rotate(-12deg); } 65% { opacity: 1; transform: translateY(-.12rem) scale(1.08) rotate(3deg); } 100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+@keyframes confirmation-copy-in { from { opacity: 0; transform: translateY(.55rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes confirmation-detail-in { from { opacity: 0; transform: translateY(.7rem) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes confirmation-countdown { to { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .submission-confirmation,
+  .submission-confirmation-mark,
+  .submission-confirmation-copy > .eyebrow,
+  .submission-confirmation-copy h2,
+  .submission-confirmation-copy > p,
+  .submission-confirmation-details > div,
+  .submission-confirmation-actions,
+  .submission-confirmation-timer::after { animation: none !important; transition: none !important; }
+  .submission-confirmation.is-leaving { display: none; }
+}
+
+/* Give the existing two-colour mark a crisp, consistent backing without altering the artwork. */
+.logo > img {
+  flex: 0 0 auto;
+  padding: .16rem;
+  border: 1px solid rgba(183, 140, 61, .42);
+  border-radius: .62rem;
+  background: #fffefa;
+  box-shadow: 0 2px 7px rgba(8, 43, 33, .14), inset 0 1px rgba(255,255,255,.98), 0 0 0 2px rgba(248,231,201,.22);
+}
+.side-brand .logo img,
+.auth-aside .logo img,
+.auth-mobile-brand .logo img {
+  background: #fffefa;
+  border-color: rgba(248,231,201,.74);
+  box-shadow: 0 3px 10px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.98), 0 0 0 2px rgba(248,231,201,.12);
+}
+
+/* Keep long record collections inside their cards instead of stretching the whole page. */
+.application-record-grid,
+.loan-cards-grid,
+.officer-queue-list,
+.repayment-review-grid,
+.servicing-loan-grid,
+.chain-event-list,
+.audit-record-list,
+.staff-account-list,
+.borrower-history-loans,
+.repayment-history,
+.audit-timeline,
+.activity-list,
+.event-list {
+  max-block-size: min(64vh, 44rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-inline-end: .25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6,78,59,.36) rgba(6,78,59,.06);
+}
+.data-table {
+  max-block-size: min(64vh, 44rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(6,78,59,.36) rgba(6,78,59,.06);
+}
+.data-table .table-head { position: sticky; top: 0; z-index: 2; }
+.application-record-grid:focus-visible,
+.loan-cards-grid:focus-visible,
+.officer-queue-list:focus-visible,
+.repayment-review-grid:focus-visible,
+.servicing-loan-grid:focus-visible,
+.chain-event-list:focus-visible,
+.audit-record-list:focus-visible,
+.staff-account-list:focus-visible,
+.borrower-history-loans:focus-visible,
+.repayment-history:focus-visible,
+.audit-timeline:focus-visible,
+.activity-list:focus-visible,
+.event-list:focus-visible,
+.data-table:focus-visible { outline: 3px solid rgba(6,78,59,.45); outline-offset: 2px; }
+.decision-panel-heading { margin-bottom: 1rem; }
+.decision-panel-heading h2 { margin-bottom: .25rem; }
+.decision-panel-heading p { margin-bottom: 0; font-size: .86rem; }
+.decision-principal-compare {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
+  align-items: center;
+  gap: .75rem;
+  padding: .9rem 1rem;
+  border: 1px solid rgba(6,78,59,.13);
+  border-radius: .85rem;
+  background: linear-gradient(115deg, rgba(6,78,59,.055), rgba(255,254,250,.84) 60%, rgba(248,231,201,.32));
+}
+.decision-principal-compare > div { display: grid; gap: .24rem; min-width: 0; }
+.decision-principal-compare > div > span { color: #66776b; font-size: .7rem; font-weight: 650; }
+.decision-principal-compare strong { color: #173f30; font: 800 clamp(1rem,2.2vw,1.25rem) "Manrope",sans-serif; overflow-wrap: anywhere; }
+.decision-principal-final strong { color: #064e3b; }
+.decision-principal-arrow { color: #9b742f; font-size: 1.25rem; }
+.app-shell[data-theme="dark"] .decision-principal-compare { border-color: rgba(248,231,201,.15); background: linear-gradient(115deg,rgba(28,49,38,.8),rgba(34,39,34,.88) 62%,rgba(66,54,34,.32)); }
+.app-shell[data-theme="dark"] .decision-principal-compare > div > span { color: #bdc9bf; }
+.app-shell[data-theme="dark"] .decision-principal-compare strong { color: #f3eee4; }
+.app-shell[data-theme="dark"] .decision-principal-final strong { color: #d5e8d7; }
+.app-shell[data-theme="dark"] .decision-principal-arrow { color: #f0d69d; }
+@media (max-width: 560px) {
+  .application-record-grid,
+  .loan-cards-grid,
+  .officer-queue-list,
+  .repayment-review-grid,
+  .servicing-loan-grid,
+  .chain-event-list,
+  .audit-record-list,
+  .staff-account-list,
+  .borrower-history-loans,
+  .repayment-history,
+  .audit-timeline,
+  .activity-list,
+  .event-list,
+  .data-table { max-block-size: min(58vh, 34rem); }
+  .decision-principal-compare { gap: .45rem; padding: .75rem; }
+  .decision-principal-compare > div > span { font-size: .65rem; }
+}
+
+/* ACTIVE means work is in progress; COMPLETED remains a quiet, settled success. */
+.badge-active {
+  border: 1px solid rgba(22,133,86,.42);
+  background: #ddf2e3;
+  color: #075b3c;
+  box-shadow: 0 0 0 2px rgba(22,133,86,.08), 0 0 14px rgba(22,133,86,.2);
+}
+.badge-active .badge-dot {
+  background: #13804f;
+  box-shadow: 0 0 0 3px rgba(19,128,79,.15), 0 0 10px rgba(19,128,79,.52);
+  animation: active-status-glow 2.8s ease-in-out infinite;
+}
+.badge-success {
+  border: 1px solid rgba(21,91,59,.13);
+  background: #e8f1e9;
+  color: #315d43;
+}
+.app-shell[data-theme="dark"] .badge-active {
+  border-color: rgba(124,218,159,.45);
+  background: rgba(30,105,65,.34);
+  color: #b9edca;
+  box-shadow: 0 0 0 2px rgba(124,218,159,.08), 0 0 15px rgba(67,181,112,.2);
+}
+.app-shell[data-theme="dark"] .badge-active .badge-dot {
+  background: #72d797;
+  box-shadow: 0 0 0 3px rgba(114,215,151,.16), 0 0 11px rgba(114,215,151,.56);
+}
+.app-shell[data-theme="dark"] .badge-success {
+  border-color: rgba(190,213,194,.14);
+  background: #283b2d;
+  color: #c4d9c8;
+}
+@keyframes active-status-glow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(19,128,79,.12), 0 0 7px rgba(19,128,79,.32); }
+  50% { box-shadow: 0 0 0 4px rgba(19,128,79,.2), 0 0 13px rgba(19,128,79,.58); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-active .badge-dot { animation: none; }
+}
+
+.blockchain-health-panel { margin-bottom: 1rem; }
+.blockchain-health-banner {
+  display: grid;
+  grid-template-columns: 1rem minmax(0,1fr);
+  align-items: start;
+  gap: .8rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid;
+  border-radius: .9rem;
+}
+.health-available { border-color: rgba(22,133,86,.23); background: linear-gradient(110deg,rgba(225,243,230,.92),rgba(255,254,250,.9)); }
+.health-unavailable { border-color: rgba(165,46,55,.22); background: linear-gradient(110deg,rgba(251,233,231,.94),rgba(255,254,250,.9)); }
+.blockchain-health-indicator { width: .8rem; height: .8rem; margin-top: .25rem; border-radius: 50%; background: #168556; box-shadow: 0 0 0 4px rgba(22,133,86,.12),0 0 12px rgba(22,133,86,.24); }
+.health-unavailable .blockchain-health-indicator { background: #a52e37; box-shadow: 0 0 0 4px rgba(165,46,55,.1); }
+.blockchain-health-banner strong { color: #173f30; font: 800 1rem "Manrope",sans-serif; }
+.health-unavailable strong { color: #812f33; }
+.blockchain-health-banner p { margin: .25rem 0 0; color: #4f6256; font-size: .8rem; line-height: 1.55; }
+.blockchain-health-facts { display: flex; flex-wrap: wrap; gap: .6rem; margin: .85rem 0; }
+.blockchain-health-facts > div { display: grid; gap: .15rem; min-width: 8rem; padding: .58rem .7rem; border: 1px solid rgba(6,78,59,.1); border-radius: .65rem; background: rgba(255,254,250,.72); }
+.blockchain-health-facts span,.outbox-count span { color: #64736a; font-size: .66rem; font-weight: 650; }
+.blockchain-health-facts strong { color: #173f30; font-size: .79rem; overflow-wrap: anywhere; }
+.blockchain-outbox-counts { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: .55rem; }
+.outbox-count { display: flex; justify-content: space-between; align-items: center; gap: .4rem; min-width: 0; padding: .62rem .7rem; border: 1px solid rgba(6,78,59,.1); border-radius: .7rem; background: rgba(255,254,250,.7); }
+.outbox-count strong { color: #173f30; font: 800 1rem "Manrope",sans-serif; }
+.outbox-failed { border-color: rgba(165,46,55,.18); background: rgba(251,233,231,.58); }
+.outbox-failed strong { color: #922e35; }
+.outbox-recorded strong { color: #315d43; }
+.blockchain-health-note { margin: .8rem 0 0; font-size: .76rem; line-height: 1.55; }
+.chain-event-retry { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .65rem; margin-top: .75rem; padding-top: .75rem; border-top: 1px solid rgba(6,78,59,.1); }
+.chain-event-retry > span { color: #586c60; font-size: .73rem; font-weight: 650; }
+.app-shell[data-theme="dark"] .blockchain-health-banner { border-color: rgba(248,231,201,.14); }
+.app-shell[data-theme="dark"] .health-available { background: linear-gradient(110deg,rgba(31,69,46,.68),rgba(30,36,31,.94)); }
+.app-shell[data-theme="dark"] .health-unavailable { background: linear-gradient(110deg,rgba(82,41,40,.5),rgba(30,36,31,.94)); }
+.app-shell[data-theme="dark"] .blockchain-health-banner strong,
+.app-shell[data-theme="dark"] .blockchain-health-facts strong,
+.app-shell[data-theme="dark"] .outbox-count strong { color: #e9eee8; }
+.app-shell[data-theme="dark"] .health-unavailable strong,.app-shell[data-theme="dark"] .outbox-failed strong { color: #ffc9c4; }
+.app-shell[data-theme="dark"] .blockchain-health-banner p,
+.app-shell[data-theme="dark"] .blockchain-health-facts span,
+.app-shell[data-theme="dark"] .outbox-count span,
+.app-shell[data-theme="dark"] .chain-event-retry > span { color: #b9c5bb; }
+.app-shell[data-theme="dark"] .blockchain-health-facts > div,
+.app-shell[data-theme="dark"] .outbox-count { border-color: rgba(248,231,201,.12); background: rgba(16,22,18,.5); }
+.app-shell[data-theme="dark"] .outbox-failed { background: rgba(92,41,40,.33); }
+.app-shell[data-theme="dark"] .outbox-recorded strong { color: #b8d8bf; }
+.app-shell[data-theme="dark"] .chain-event-retry { border-color: rgba(248,231,201,.12); }
+@media (max-width: 680px) {
+  .blockchain-outbox-counts { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .outbox-count:last-child { grid-column: 1 / -1; }
+  .blockchain-health-panel .records-intro { align-items: flex-start; }
+  .blockchain-health-panel .records-intro > .btn { flex: 0 0 auto; }
+}

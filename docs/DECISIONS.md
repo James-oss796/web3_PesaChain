@@ -60,7 +60,9 @@ the SRS leaves open. Technical guides apply where consistent with both.
   using leases and `FOR UPDATE SKIP LOCKED`, submits with the backend-only signer, checks receipt
   evidence, and retries bounded transient failures. `RECORDED` requires the configured confirmation
   count. Ambiguous submissions are looked up by stable event ID before retry. Reconciliation records
-  findings and never rewrites authoritative loan state.
+  findings and never rewrites authoritative loan state. When bounded automatic retries are exhausted,
+  an Administrator may queue an audited redrive only after a live RPC, chain, contract, and signer
+  health check succeeds. This does not change operational records or bypass confirmation checks.
 - **Loan interest:** Flat interest is calculated on original principal for the entire agreed loan
   term, at the rate fixed when approved. Do not add compounding, reducing-balance interest,
   penalties, or other interest models.
@@ -100,7 +102,9 @@ the SRS leaves open. Technical guides apply where consistent with both.
   applications.
 - **Loan decisions:** Record officer, timestamp, and rationale for every decision. Require a
   borrower-readable rejection reason. Keep notes off-chain. A Loan Officer may adjust the requested
-  principal and/or term when approving; preserve original requested amount and term separately.
+  principal and/or term when approving; preserve original requested amount and term separately. The
+  requested values are read-only during review; approved values are stored separately and never
+  overwrite the borrower's submission.
   Approved principal, term, and flat rate are authoritative for loan calculations.
 - **Loan lifecycle:** Persist and display `DISBURSED` as a distinct status; do not skip lifecycle
   states.

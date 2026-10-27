@@ -1,6 +1,6 @@
 # PesaChain frontend integration map
 
-Reviewed: 2026-10-22
+Reviewed: 2026-10-26
 
 ## Existing frontend
 
@@ -46,6 +46,7 @@ for calculations.
 | Borrower repayment simulation/history | `POST/GET /loans/{uuid}/simulated-repayments`, `GET /loans/{uuid}/repayments` | BORROWER and ownership checked. Initiation requires UUID `Idempotency-Key`; event initiation does not reduce balance. |
 | Loan Officer repayment queue | `GET /officer/repayment-events?status=PENDING|VERIFIED&page&size`, `GET /officer/repayment-events/{uuid}`, `POST .../{uuid}/verify`, `POST .../{uuid}/record` | LOAN_OFFICER only. Official repayment is recorded after verification. |
 | Blockchain status | `GET /loans/{uuid}/blockchain-events`, `GET /officer/blockchain-events`, `GET /admin/blockchain-events?status&page&size` | Borrower events restricted to own loan; officer and admin endpoints role-specific. Statuses `PENDING`, `PROCESSING`, `SUBMITTED`, `RECORDED`, `FAILED`; only `RECORDED` proves configured confirmation was met. |
+| Administrator blockchain health and retry | `GET /admin/blockchain-health`, `POST /admin/blockchain-events/{uuid}/retry` | ADMINISTRATOR only. Health checks RPC, expected chain, contract interface, signer authorization, block height, and outbox counts. Retry requires a healthy check, only queues a failed event, records an audit action, and does not alter the operational loan/repayment. |
 | Administrator reconciliation | `GET /admin/blockchain-reconciliation/findings?limit`, `POST /admin/blockchain-reconciliation/run` | ADMINISTRATOR; monitoring only. No officer rights implied. |
 | Staff account management | `GET/POST /admin/users`, `PATCH /admin/users/{uuid}` | ADMINISTRATOR. List currently includes staff accounts only; create accepts staff email/password/role. |
 | Officer application search | `GET /officer/applications?page&size&q` | LOAN_OFFICER; optional case-insensitive borrower-name prefix (2–80 characters), bounded page size. The UI debounces typing and the database has a functional prefix index. |

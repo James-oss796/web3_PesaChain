@@ -336,6 +336,7 @@ Backend integration tests use disposable PostgreSQL Testcontainers databases whe
 - [Frontend/API integration map](docs/FRONTEND_INTEGRATION_MAP.md)
 - [Loan decisions and disbursement](docs/LOAN_DECISIONS_AND_DISBURSEMENT.md)
 - [Free-tier deployment guide](docs/FREE_DEPLOYMENT_GUIDE.md)
+- [Blockchain operations, outage recovery, and deployment choices](docs/BLOCKCHAIN_OPERATIONS_AND_DEPLOYMENT.md)
 - [Backend domain guide](docs/claude/01-BACKEND-DOMAIN.md)
 - [Blockchain and outbox guide](docs/claude/02-BLOCKCHAIN.md)
 - [UI/UX guide](docs/claude/03-UI-UX.md)

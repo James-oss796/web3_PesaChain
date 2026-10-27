@@ -1,18 +1,19 @@
 # PesaChain implementation status
 
-Last reviewed: 2026-10-22
+Last reviewed: 2026-10-26
 
 ## Current repository state
 
 - React 19 / Vite 8 / TypeScript / Tailwind 4 frontend, supplied logo, 31 SVG wireframes,
   diagrams, SRS, API specification, system design, and implementation guides are present.
-- Spring Boot 3.5.16 / Java 21-target backend, PostgreSQL 17.11 Compose service, Flyway V1–V8,
+- Spring Boot 3.5.16 / Java 21-target backend, PostgreSQL 17.11 Compose service, Flyway migrations V1–V11,
   session authentication, borrower ownership, staff provisioning, loan application/decision,
   approved terms, full disbursement, simulated repayment verification/recording, and loan lifecycle
   behavior are implemented.
 - Solidity event ledger and Hardhat 3 local development project are present. Backend-only Web3j
-  signing, transactional outbox, confirmation tracking, retry handling, reconciliation findings,
-  and secured status endpoints are implemented.
+  signing, transactional outbox, confirmation tracking, bounded retries, reconciliation findings,
+  and secured status endpoints are implemented. V11 adds audited recovery for exhausted event
+  delivery and an Administrator live health summary.
 - Frontend API integration is implemented. `src/App.tsx` mounts a session-aware application;
   `src/services/api.ts` uses cookie sessions and CSRF; borrower profile/application/loan/repayment
   views, officer application decisions, loan servicing and repayment actions, and administrator
@@ -39,6 +40,8 @@ Last reviewed: 2026-10-22
   bounded retry, duplicate submission recovery, and separate operational/chain statuses.
 - [x] Reconciliation for missing, mismatched, duplicate, unexpected, and locally unrecorded events;
   secured Administrator, Loan Officer, and borrower-owned loan status endpoints.
+- [x] V11 additive Admin blockchain health and audited retry for exhausted deliveries; tested against
+  isolated PostgreSQL without resetting or changing the persistent Compose volume.
 - [x] Local Hardhat 3 deployment and actual backend-to-contract integration test against chain ID
   31337. The Hardhat node/deployment is ephemeral and is not a persistent deployment.
 - [ ] Browser E2E, visual/responsive/accessibility review, and complete setup/demo documentation.
@@ -636,3 +639,87 @@ Frontend TypeScript and production build passed. Backend verification passed wit
 - Responsive dashboard behavior at multiple viewport widths, dark-theme contrast across all dashboard screens, keyboard-only navigation, and screen-reader behavior remain unverified in a real authenticated session.
 - The presentation's “latest documented backend run” is drawn from this status record; it is explicitly labeled as not rerun during presentation creation. Its local/test chain and deployment prerequisites remain environment-dependent.
 - The existing PostgreSQL database and Compose volume were not reset or modified. No backend service, signer, contract address, or chain deployment was changed.
+
+### Blockchain health visibility, exhausted-event recovery, and request immutability (2026-10-26)
+
+#### Implemented
+
+- Added additive Flyway V11 (`manual_retry_requested`) so an Administrator can re-queue an exhausted
+  `FAILED` outbox event without resetting or rewriting V1–V10. Event IDs and attempt history remain
+  stable. Queueing the retry and its `BLOCKCHAIN_DELIVERY_RETRY_QUEUED` audit record commit together.
+- Added an Administrator-only live health endpoint, `GET /api/v1/admin/blockchain-health`. It checks
+  RPC availability, expected chain ID, contract code/interface, authorized signer, and latest block,
+  and returns aggregate outbox counts. It does not expose RPC URLs, signer details, keys, or personal
+  data.
+- Added `POST /api/v1/admin/blockchain-events/{eventId}/retry`. The backend repeats the full health
+  check and only queues a currently failed event when healthy. The existing worker then processes it
+  asynchronously; its stable-ID chain lookup protects recovery from duplicate evidence, and the
+  existing confirmation threshold still governs `RECORDED`. Administrator retry does not alter the
+  successful operational loan or repayment.
+- Bounded automatic retries continue for transient failures. Once exhausted, events remain visible
+  as `FAILED` until an authorized Administrator restores chain health and explicitly queues recovery.
+  Thus users may complete operational actions during an outage; evidence remains queued or failed
+  separately rather than blocking the business transaction.
+- Clarified the Officer review form: the borrower’s submitted amount is displayed as read-only;
+  approved principal remains a separate decision field under the previously approved policy that
+  allows Officers to adjust approved principal/term. The backend stores `requested_amount` and
+  `approved_principal` separately. The integration test verifies a KES 15,000 request remains
+  KES 15,000 when KES 12,000 is approved, and that the borrower sees both values.
+- Updated the frontend integration map and decision record with the monitoring/retry endpoints and
+  the immutable-request/separate-approved-terms rule.
+
+#### Verification for this checkpoint
+
+- `corepack pnpm@10.34.3 exec tsc --noEmit`: **passed**.
+- `corepack pnpm@10.34.3 run build`: **passed**.
+- `backend/./mvnw.cmd verify -q`: **passed**, 53 tests, 0 failures, 0 errors, 1 skipped. The run
+  used disposable PostgreSQL 17.11 Testcontainers databases and validated V1–V11 without touching
+  the persistent Compose volume.
+- Tests cover live health aggregation, role denial, refusing retry while unhealthy, successful
+  Administrator retry queueing, the secured health/retry HTTP routes, migration V11, and retrying
+  an exhausted event while retaining attempt history and operational status.
+- No live Admin browser session or live RPC outage/recovery journey was performed in this checkpoint.
+  Browser verification remains subject to browser access being enabled; healthy-node retry is covered
+  by backend tests, not claimed as a real browser operation.
+- Java/Maven emitted the existing Mockito dynamic-agent warning; it is non-fatal.
+
+### Local blockchain recovery guide and dashboard health summary (2026-10-26)
+
+#### Findings from the supplied Spring Boot log
+
+- The application starts successfully on port 8080 and Flyway reports schema version 11 is current.
+- A read-only RPC probe during this follow-up returned chain ID `0x7a69` (31337) and no code at the
+  default configured address `0x5fbdb2315678afecb367f032d93f642f64180aa3`. No transaction was sent.
+  This confirms the currently reachable local chain has no deployment at that default address; if
+  the backend has an address override, compare it with the output from a fresh deployment as well.
+- Reconciliation reports `CONTRACT_CODE_UNAVAILABLE`. The Web3j health path checks RPC chain ID
+  before requesting bytecode, then emits this code when `eth_getCode` errors, returns no value, or
+  returns `0x` for the configured address. This is narrower than a general `RPC_UNAVAILABLE` error.
+- The most likely local cause is a restarted Hardhat node, which starts with an empty in-memory
+  chain; another possibility is that backend `PESACHAIN_CONTRACT_ADDRESS` points to an address that
+  was not deployed on the RPC instance currently configured. The log does not prove which occurred.
+  The immediate correction is compile/deploy to the current node, set the backend address to the
+  deployment output, and restart the backend process with matching process environment. No database
+  reset is involved.
+- `Standard Commons Logging discovery ... commons-logging.jar` is a classpath warning, separate from
+  and not the cause of `CONTRACT_CODE_UNAVAILABLE`.
+
+#### Implemented and documented
+
+- Added `docs/BLOCKCHAIN_OPERATIONS_AND_DEPLOYMENT.md`, linked from the root README. It includes
+  the error-code map, local Hardhat node/deploy/bytecode-check/backend commands, outbox retry behavior,
+  secret-handling reminders, and local-vs-hosted/testnet/production choices. It notes the repo only
+  configures the Hardhat localhost network today; public testnet deployment requires additional
+  configuration and verification.
+- Improved the Administrator overview so blockchain event totals come from the server's aggregate
+  report status counts (the event-list endpoint does not return `totalItems`), and the card also
+  shows current RPC/contract/signer health with a safe actionable explanation. This makes the
+  overview accurately distinguish outbox volume from chain availability.
+
+#### Verification
+
+- `corepack pnpm@10.34.3 exec tsc --noEmit`: **passed** after the Admin dashboard update.
+- `corepack pnpm@10.34.3 run build`: **passed** after the Admin dashboard update.
+- Backend source was not changed in this follow-up. The latest full backend run remains the
+  immediately preceding `backend/./mvnw.cmd verify -q`: **53 tests, 0 failures, 0 errors, 1 skipped**.
+  No live-chain transaction or browser operation was performed in this follow-up.

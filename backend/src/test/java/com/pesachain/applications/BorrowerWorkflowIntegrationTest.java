@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pesachain.blockchain.BlockchainOutboxRepository;
 import jakarta.servlet.http.Cookie;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -49,6 +50,7 @@ class BorrowerWorkflowIntegrationTest {
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
         registry.add("pesachain.simulation.hmac-secret", () -> "test-only-simulation-signing-secret-32-bytes-minimum");
+        registry.add("pesachain.blockchain.rpc-url", () -> "http://127.0.0.1:1");
     }
 
     @Autowired
@@ -60,6 +62,7 @@ class BorrowerWorkflowIntegrationTest {
     @Autowired
     private JdbcTemplate jdbc;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private BlockchainOutboxRepository blockchainOutbox;
 
     @Test
     void borrowerCanRegisterSubmitAndReadOnlyTheirOwnApplication() throws Exception {
@@ -565,6 +568,56 @@ class BorrowerWorkflowIntegrationTest {
     }
 
     @Test
+    void administratorCanReadSafeLiveBlockchainHealthButOtherRolesCannot() throws Exception {
+        var borrower = registerBorrower("Health Check Borrower");
+        var officer = createOfficerSession();
+        var administrator = createAdminSession();
+        MvcResult result = mockMvc.perform(withSession(get("/api/v1/admin/blockchain-health"), administrator))
+                .andExpect(status().isOk()).andReturn();
+        JsonNode response = objectMapper.readTree(result.getResponse().getContentAsString());
+        assertTrue(response.path("connection").path("status").asText().matches("AVAILABLE|UNAVAILABLE"));
+        assertEquals(31337, response.path("connection").path("expectedChainId").asLong());
+        assertTrue(response.path("outboxCounts").has("FAILED"));
+        mockMvc.perform(withSession(get("/api/v1/admin/blockchain-health"), officer)).andExpect(status().isForbidden());
+        mockMvc.perform(withSession(get("/api/v1/admin/blockchain-health"), borrower.session())).andExpect(status().isForbidden());
+        UUID eventId = UUID.randomUUID();
+        Csrf officerCsrf = csrf(officer);
+        mockMvc.perform(withSession(post("/api/v1/admin/blockchain-events/" + eventId + "/retry")
+                        .cookie(officerCsrf.cookie()).header(officerCsrf.headerName(), officerCsrf.token()), officer))
+                .andExpect(status().isForbidden());
+        Csrf borrowerCsrf = csrf(borrower.session());
+        mockMvc.perform(withSession(post("/api/v1/admin/blockchain-events/" + eventId + "/retry")
+                        .cookie(borrowerCsrf.cookie()).header(borrowerCsrf.headerName(), borrowerCsrf.token()), borrower.session()))
+                .andExpect(status().isForbidden());
+        Csrf adminCsrf = csrf(administrator);
+        mockMvc.perform(withSession(post("/api/v1/admin/blockchain-events/" + eventId + "/retry")
+                        .cookie(adminCsrf.cookie()).header(adminCsrf.headerName(), adminCsrf.token()), administrator))
+                .andExpect(status().isServiceUnavailable());
+    }
+
+    @Test
+    void exhaustedFailedDeliveryCanBeRequeuedWithoutChangingOperationalStateOrAttemptHistory() throws Exception {
+        createAdminSession();
+        jdbc.update("UPDATE blockchain_outbox SET next_attempt_at=now()+interval '1 day' WHERE status IN ('PENDING','SUBMITTED','FAILED')");
+        UUID eventId = UUID.randomUUID(), sourceId = UUID.randomUUID(), aggregateId = UUID.randomUUID();
+        byte[] aggregateKey = new byte[32]; aggregateKey[0] = 3;
+        jdbc.update("INSERT INTO blockchain_outbox(event_id,source_type,source_id,aggregate_type,aggregate_id,aggregate_key,event_type,amount_minor_units,status,attempt_count,retryable,last_error_code) "
+                        + "VALUES(?,'APPLICATION',?,'APPLICATION',?,?,'LOAN_APPROVED',0,'FAILED',8,false,'RPC_UNAVAILABLE')",
+                eventId, sourceId, aggregateId, aggregateKey);
+        UUID administratorId = jdbc.queryForObject("SELECT id FROM users WHERE role='ADMINISTRATOR' ORDER BY created_at DESC LIMIT 1", UUID.class);
+        assertTrue(blockchainOutbox.queueManualRetry(eventId, administratorId));
+        assertEquals("FAILED", jdbc.queryForObject("SELECT status FROM blockchain_outbox WHERE event_id=?", String.class, eventId));
+        assertTrue(jdbc.queryForObject("SELECT retryable AND manual_retry_requested FROM blockchain_outbox WHERE event_id=?", Boolean.class, eventId));
+        assertEquals(8, jdbc.queryForObject("SELECT attempt_count FROM blockchain_outbox WHERE event_id=?", Integer.class, eventId));
+        assertEquals(1, jdbc.queryForObject("SELECT count(*) FROM audit_log WHERE actor_id=? AND action='BLOCKCHAIN_DELIVERY_RETRY_QUEUED' AND target_id=?", Integer.class, administratorId, eventId));
+        var claimed = blockchainOutbox.claim(UUID.randomUUID(), 8, 60_000);
+        assertTrue(claimed.isPresent());
+        assertEquals(eventId, claimed.get().eventId());
+        assertEquals(9, claimed.get().attemptCount());
+        assertEquals("PROCESSING", jdbc.queryForObject("SELECT status FROM blockchain_outbox WHERE event_id=?", String.class, eventId));
+    }
+
+    @Test
     void concurrentOutboxWorkersCannotClaimOneEventAtTheSameTime() throws Exception {
         jdbc.update("UPDATE blockchain_outbox SET next_attempt_at=now()+interval '1 day' WHERE status IN ('PENDING','SUBMITTED','FAILED')");
         UUID eventId=UUID.randomUUID(), sourceId=UUID.randomUUID(), aggregateId=UUID.randomUUID();
@@ -585,8 +638,6 @@ class BorrowerWorkflowIntegrationTest {
     }
 
     @Autowired private com.pesachain.repayments.RepaymentService repaymentService;
-    @Autowired private com.pesachain.blockchain.BlockchainOutboxRepository blockchainOutbox;
-
     private UUID createActiveLoan(TestBorrower borrower,MockHttpSession officer,BigDecimal principal) throws Exception {
         return createActiveLoan(borrower,officer,principal,BigDecimal.ZERO);
     }

@@ -2,6 +2,7 @@ package com.pesachain.blockchain;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -153,6 +154,23 @@ public class Web3jBlockchainClient implements BlockchainClient {
         }
     }
 
+    @Override
+    public BlockchainNodeHealth health() {
+        Instant checkedAt = Instant.now();
+        try {
+            Runtime runtime = runtime();
+            var blockResponse = web3j.ethBlockNumber().send();
+            if (blockResponse.hasError() || blockResponse.getBlockNumber() == null)
+                throw new BlockchainChainException("RPC_BLOCK_HEIGHT_UNAVAILABLE", true);
+            return BlockchainNodeHealth.available(expectedChainId, runtime.chainId().toString(),
+                    blockResponse.getBlockNumber().toString(), checkedAt);
+        } catch (BlockchainChainException failure) {
+            return BlockchainNodeHealth.unavailable(expectedChainId, checkedAt, failure.code());
+        } catch (Exception failure) {
+            return BlockchainNodeHealth.unavailable(expectedChainId, checkedAt, "RPC_UNAVAILABLE");
+        }
+    }
+
     private Runtime runtime() {
         if (rpcUrl == null || rpcUrl.isBlank() || contractAddress == null || contractAddress.isBlank()
                 || signerPrivateKey == null || signerPrivateKey.isBlank()) {
@@ -167,7 +185,7 @@ public class Web3jBlockchainClient implements BlockchainClient {
             var codeResponse = web3j.ethGetCode(contractAddress, DefaultBlockParameterName.LATEST).send();
             if (codeResponse.hasError() || codeResponse.getCode() == null || "0x".equals(codeResponse.getCode()))
                 throw new BlockchainChainException("CONTRACT_CODE_UNAVAILABLE", true);
-            Runtime runtime = new Runtime(credentials);
+            Runtime runtime = new Runtime(credentials, chainResponse.getChainId());
             if (!probeContract(runtime)) throw new BlockchainChainException("CONTRACT_ABI_MISMATCH", false);
             if (!isRecorder(runtime, credentials.getAddress())) throw new BlockchainChainException("SIGNER_NOT_AUTHORIZED", false);
             return runtime;
@@ -282,5 +300,5 @@ public class Web3jBlockchainClient implements BlockchainClient {
         }
     }
 
-    private record Runtime(Credentials credentials) {}
+    private record Runtime(Credentials credentials, BigInteger chainId) {}
 }

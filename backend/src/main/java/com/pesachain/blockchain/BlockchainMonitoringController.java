@@ -23,6 +23,16 @@ public class BlockchainMonitoringController {
         return service.administratorEvents(principal(auth), status, page, size);
     }
 
+    @GetMapping("/api/v1/admin/blockchain-health")
+    BlockchainMonitoringService.AdminHealth administratorHealth(Authentication auth) {
+        return service.health(principal(auth));
+    }
+
+    @PostMapping("/api/v1/admin/blockchain-events/{eventId}/retry")
+    BlockchainMonitoringService.RetryQueued retryFailedEvent(Authentication auth, @PathVariable UUID eventId) {
+        return service.retryFailedEvent(principal(auth), eventId);
+    }
+
     @GetMapping("/api/v1/officer/blockchain-events")
     BlockchainMonitoringService.StatusPage officerEvents(Authentication auth,
             @RequestParam(required = false) String status, @RequestParam(defaultValue = "0") int page,

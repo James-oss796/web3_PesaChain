@@ -78,18 +78,30 @@ recover a transaction accepted before a prior process interruption. The receipt 
 matching contract event and payload. The worker stores `RECORDED` only once the configured chain
 confirmation count is met (default one for local Hardhat). Transient failures receive bounded
 exponential retry delay with jitter and a maximum-attempt limit; permanent failures remain visible
-for investigation. RPC work never rolls back a committed loan operation.
+for investigation. RPC work never rolls back a committed loan operation. V11 adds an audited
+Administrator redrive flag so an exhausted FAILED event can be claimed again without resetting its
+attempt history; manual redrive is allowed only after live RPC/chain/contract/signer health succeeds.
 
 ## Reconciliation and monitoring API
 
 Reconciliation compares outbox evidence, contract getters, and logs. It records repeatable findings
 for missing records, payload disagreement, duplicate chain events, unexpected events, and local
-status disagreement. It never modifies loan state or fabricates transactions. An administrator can
-inspect findings or trigger a reconciliation run:
+status disagreement. It never modifies loan state or fabricates transactions. An Administrator can
+inspect live health and outbox totals, retry a failed delivery after the health check passes, inspect
+findings, or trigger a reconciliation run:
 
+- `GET /api/v1/admin/blockchain-health`
 - `GET /api/v1/admin/blockchain-events`
+- `POST /api/v1/admin/blockchain-events/{eventId}/retry`
 - `GET /api/v1/admin/blockchain-reconciliation/findings`
 - `POST /api/v1/admin/blockchain-reconciliation/run`
+
+The health response contains availability, expected/observed chain ID when available, latest block,
+a safe issue code, check time, and event counts. It omits endpoint URLs and signing credentials.
+Manual retry queues the existing stable event ID and audits the action; the worker still validates
+receipt evidence and configured confirmations before marking an event `RECORDED`. See
+[`../BLOCKCHAIN_OPERATIONS_AND_DEPLOYMENT.md`](../BLOCKCHAIN_OPERATIONS_AND_DEPLOYMENT.md) for local
+repair commands and hosted deployment trade-offs.
 
 Loan Officers can inspect event status at `GET /api/v1/officer/blockchain-events`. Borrowers can
 inspect events only for a loan they own at `GET /api/v1/loans/{loanId}/blockchain-events`. The
